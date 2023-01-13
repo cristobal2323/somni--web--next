@@ -1,9 +1,27 @@
+import Head from "next/head";
+
+import { Box, Grid } from "@mui/material";
+
+/* Components */
+import ImageComponent from "../components/login/Image";
+import LoginComponent from "../components/login/Login";
+/*  Style */
+
 import type { NextPage } from "next";
 
 const LoginPage: NextPage = () => {
   return (
     <>
-      <h1>Login</h1>
+      <Head>
+        <title>Somni</title>
+      </Head>
+
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={0}>
+          <ImageComponent />
+          <LoginComponent />
+        </Grid>
+      </Box>
     </>
   );
 };
