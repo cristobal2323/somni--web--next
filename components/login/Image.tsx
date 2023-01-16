@@ -8,7 +8,10 @@ const ImageComponent = () => {
       xs={12}
       sm={12}
       md={7}
-      sx={{ display: { xs: "none", sm: "none", md: "block" }, height: "100vh" }}
+      sx={{
+        display: { xs: "none", sm: "none", md: "block" },
+        minHeight: "100vh",
+      }}
     >
       <Box padding={"16px"} display={"flex"} alignItems={"center"}>
         <Image

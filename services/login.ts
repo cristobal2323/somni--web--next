@@ -1,15 +1,27 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: "/api/",
+  prepareHeaders: (headers, { getState }) => {
+    headers.set("Access-Control-Allow-Origin", "*");
+    return headers;
+  },
+});
+
 export const loginApi = createApi({
   reducerPath: "loginApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://pokeapi.co/api/v2/" }),
+  baseQuery: baseQuery,
   tagTypes: [],
   endpoints: (builder) => ({
-    postLogin: builder.query({
-      query: (name: string) => `pokemon/${name}`,
+    Login: builder.mutation({
+      query: (body) => ({
+        url: "auth",
+        method: "POST",
+        body: body,
+      }),
     }),
   }),
 });
 
 // Export hooks for usage in functional components
-export const { usePostLoginQuery } = loginApi;
+export const { useLoginMutation } = loginApi;

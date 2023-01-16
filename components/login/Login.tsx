@@ -9,8 +9,14 @@ import { colors } from "../../themes";
 
 const LoginComponent = () => {
   return (
-    <Grid item xs={12} sm={12} md={5} sx={{ height: "100vh" }}>
-      <Box sx={{ height: "100vh", background: colors.secondary }}>
+    <Grid
+      item
+      xs={12}
+      sm={12}
+      md={5}
+      sx={{ minHeight: "100vh", background: colors.secondary }}
+    >
+      <Box sx={{ minHeight: "100vh", background: colors.secondary }}>
         <Box display={"flex"} padding={2} flex={1} justifyContent={"flex-end"}>
           <Button
             variant="outlined"
@@ -27,7 +33,7 @@ const LoginComponent = () => {
           justifyContent={"center"}
           flex={1}
           sx={{
-            height: `calc(100vh - 70px)`,
+            minHeight: `calc(100vh - 70px)`,
           }}
         >
           <Box display={"flex"} alignItems={"center"} flexDirection={"column"}>

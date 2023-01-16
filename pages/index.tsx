@@ -16,7 +16,7 @@ const LoginPage: NextPage = () => {
         <title>Somni</title>
       </Head>
 
-      <Box sx={{ flexGrow: 1 }}>
+      <Box>
         <Grid container spacing={0}>
           <ImageComponent />
           <LoginComponent />

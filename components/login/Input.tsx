@@ -1,52 +1,57 @@
-import { Box, Link, Typography } from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import Button, { ButtonProps } from "@mui/material/Button";
+//React
+import { useEffect } from "react";
+
+//Next
+import { useRouter } from "next/router";
+
+//Material
+import { Alert, AlertTitle, Box, Link, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  "label + &": {
-    marginTop: theme.spacing(3),
-  },
-  "& .MuiInputBase-input": {
-    borderRadius: 4,
-    position: "relative",
-    // backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-    backgroundColor: "#3d45a8",
-    border: "0",
-    fontSize: 16,
-    color: "#fff",
-    width: "200px",
-    padding: "10px 12px 10px 40px",
-    transition: theme.transitions.create([
-      "border-color",
-      "background-color",
-      "box-shadow",
-    ]),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: ["Roboto"].join(","),
-    "&:focus": {
-      boxShadow: `${alpha("#FFFFFF", 0.1)} 0 0 0 0.1rem`,
-      borderColor: "#FFFFFF",
-    },
-  },
-}));
+//Package
+import { useForm, SubmitHandler } from "react-hook-form";
 
-const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  color: theme.palette.getContrastText("#8A88EA"),
-  width: "252px",
-  marginTop: "50px",
-  backgroundColor: "#8A88EA",
-  "&:hover": {
-    backgroundColor: "#7C7BD5",
-  },
-}));
+//Service
+import { useLoginMutation } from "../../services/login";
+
+//Buttons
+import { customButtons, validations } from "../../utils/index";
+
+const { BootstrapInput, ColorButton } = customButtons;
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 export const InputComponent = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const [login, result] = useLoginMutation();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (result.isSuccess) {
+      router.push("/dashboard");
+    }
+  }, [result, router]);
+
+  const onLoginUser: SubmitHandler<FormData> = async ({ email, password }) => {
+    login({
+      provider: "sistema",
+      sistema: { email: email, password: password },
+    });
+  };
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit(onLoginUser)} noValidate>
         <Box position={"relative"} marginTop={5}>
           <Typography
             color="info"
@@ -61,8 +66,21 @@ export const InputComponent = () => {
             color="info"
             sx={{ position: "absolute", zIndex: 1, top: 30, left: 10 }}
           />
-          <BootstrapInput id="bootstrap-input" placeholder="user@gmail.cl" />
+          <BootstrapInput
+            {...register("email", {
+              required: "Este campo es requerido",
+              validate: validations.isEmail,
+            })}
+            id="bootstrap-input"
+            placeholder="user@gmail.cl"
+            error={!!errors.email}
+          />
         </Box>
+        {errors.email?.message && (
+          <Typography fontSize={12} marginTop={0.5} color={"info.main"}>
+            {errors.email?.message}
+          </Typography>
+        )}
         <Box marginTop={2} position={"relative"}>
           <Typography
             color="info"
@@ -81,11 +99,20 @@ export const InputComponent = () => {
             type="password"
             id="bootstrap-input"
             placeholder="******"
+            error={!!errors.password}
+            {...register("password", {
+              required: "Este campo es requerido",
+              //minLength: { value: 6, message: "Mínimo 6 caracteres" },
+            })}
           />
+          {errors.password?.message && (
+            <Typography fontSize={12} marginTop={0.5} color={"info.main"}>
+              {errors.password?.message}
+            </Typography>
+          )}
         </Box>
-        <Box display={"flex"} justifyContent={"flex-end"}>
+        <Box display={"flex"} justifyContent={"flex-end"} marginBottom={6}>
           <Link
-            component="button"
             variant="body2"
             sx={{
               color: "#ffffff",
@@ -99,7 +126,26 @@ export const InputComponent = () => {
             ¿Olvidaste la contraseña?
           </Link>
         </Box>
-        <ColorButton variant="contained">Iniciar sesión</ColorButton>
+        {result.isError && (
+          <Alert
+            variant="filled"
+            severity="error"
+            sx={{ fontSize: "12px", marginBottom: 1 }}
+          >
+            Usuario o contraseña incorrecta
+          </Alert>
+        )}
+        <ColorButton
+          type="submit"
+          variant="contained"
+          onClick={() => {
+            if (!result.isLoading) {
+              handleSubmit(onLoginUser);
+            }
+          }}
+        >
+          {result.isLoading ? "Cargando" : "Iniciar sesión"}
+        </ColorButton>
       </form>
     </>
   );

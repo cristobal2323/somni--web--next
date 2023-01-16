@@ -20,8 +20,7 @@ const HomePage: NextPage = () => {
   // const { data, error, isLoading } = useGetHomeQuery("bulbasaur");
 
   return (
-    <DashboardLayout title={"Somni incio"}>
-      <h1>Dashboard</h1>
+    <DashboardLayout title={"Somni Dashboard"}>
       {/*   <div>
         <button
           aria-label="Increment value"
