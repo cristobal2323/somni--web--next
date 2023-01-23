@@ -13,3 +13,22 @@
 .menu--dashboard li a {
     text-decoration: none;
 }
+
+/* Container */
+.container {
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-full {
+    display: flex;
+    width: 100%;
+}
+
+.block {
+    display: block;
+    width: 100%;
+}

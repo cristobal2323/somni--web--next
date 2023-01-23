@@ -1,12 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const baseQuery = fetchBaseQuery({
-  baseUrl: "/api/",
-  prepareHeaders: (headers, { getState }) => {
-    headers.set("Access-Control-Allow-Origin", "*");
-    return headers;
-  },
-});
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQuery } from "./config";
 
 export const loginApi = createApi({
   reducerPath: "loginApi",
@@ -14,14 +7,20 @@ export const loginApi = createApi({
   tagTypes: [],
   endpoints: (builder) => ({
     Login: builder.mutation({
-      query: (body) => ({
+      query: (body: object) => ({
         url: "auth",
         method: "POST",
         body: body,
+      }),
+    }),
+    logOut: builder.mutation({
+      query: () => ({
+        url: `auth`,
+        method: "DELETE",
       }),
     }),
   }),
 });
 
 // Export hooks for usage in functional components
-export const { useLoginMutation } = loginApi;
+export const { useLoginMutation, useLogOutMutation } = loginApi;

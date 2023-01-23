@@ -1,19 +1,32 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// Next.js API
 import type { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
 
+//libs
+import axios from "axios";
+import { withSessionRoute } from "../../../utils/sesion";
+
+//types
 import { IAuth } from "../../../interfaces/index";
 
 type Data = { message: string } | IAuth;
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+declare module "iron-session" {
+  interface IronSessionData {
+    user?: {
+      token: string;
+    };
+  }
+}
+
+export default withSessionRoute(handler);
+
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   //Handle Login
   switch (req.method) {
     case "POST":
       return auth(req, res);
+    case "DELETE":
+      return logOut(req, res);
     default:
       return res.status(400).json({
         message: "Bad request",
@@ -22,7 +35,6 @@ export default function handler(
 }
 
 async function auth(req: NextApiRequest, res: NextApiResponse<Data>) {
-  console.log(`${process.env.API_BACK}authadmincli`, req.body);
   try {
     const response = await axios.post(
       `${process.env.API_BACK}authadmincli.json`,
@@ -37,7 +49,26 @@ async function auth(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     const data = response.data;
 
+    if (data?.auth_token) {
+      req.session.user = {
+        token: data.auth_token,
+      };
+      await req.session.save();
+    }
+
     return res.json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      message: "Login Problem",
+    });
+  }
+}
+
+async function logOut(req: NextApiRequest, res: NextApiResponse<Data>) {
+  try {
+    req.session.destroy();
+    res.send({ message: "Sesión cerrada" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({

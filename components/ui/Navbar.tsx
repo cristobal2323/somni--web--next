@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 
 //Material
@@ -20,7 +20,8 @@ export const Navbar = () => {
     } else {
       dispatch(closeMenu());
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   const handleResize = () => {
     if (window.innerWidth > 899) {

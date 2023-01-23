@@ -1,41 +1,45 @@
+import React, { useState } from "react";
 import type { NextPage } from "next";
 
 //Components
 import { DashboardLayout } from "../../components/layouts";
-
-// Types
-//import type { RootState } from "../../store";
-
-//Redux
-//import { useSelector, useDispatch } from "react-redux";
-//import { decrement, increment } from "../../slices/homeSlice";
+import { FilterComponent } from "../../components/dashboard/Filter";
+import { Loader } from "../../components/ui";
 
 //Service
-//import { useGetHomeQuery } from "../../services/home";
+import { homeApi, useGetHomeQuery } from "../../services/home";
+import { useDispatch } from "react-redux";
 
 const HomePage: NextPage = () => {
-  // const count = useSelector((state: RootState) => state.home.value);
-  // const dispatch = useDispatch();
+  const [myState, setState] = useState("23-02-2023");
+  const dispatch = useDispatch();
 
-  // const { data, error, isLoading } = useGetHomeQuery("bulbasaur");
+  const response = useGetHomeQuery({
+    desde: myState,
+    hasta: "31-03-2023",
+  });
+
+  const resetState = (): void => {
+    dispatch(homeApi.util.resetApiState());
+  };
 
   return (
     <DashboardLayout title={"Somni Dashboard"}>
-      {/*   <div>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          Increment
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          Decrement
-        </button>
-      </div> */}
+      {response.isLoading || response.isError ? (
+        <Loader
+          resetState={resetState}
+          isError={response.isError}
+          seeError={false}
+          error={JSON.stringify(response.error)}
+        />
+      ) : (
+        <>
+          <FilterComponent />
+          <div>
+            <button onClick={() => setState("01-01-2023")}>test</button>
+          </div>
+        </>
+      )}
     </DashboardLayout>
   );
 };

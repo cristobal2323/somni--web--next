@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
 //Next
 import NextLink from "next/link";
@@ -15,6 +15,9 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
 import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
+
+//Service
+import { useLogOutMutation } from "../../services/login";
 
 // Utils
 import { menuUtilis } from "../../utils";
@@ -44,11 +47,19 @@ const ButtonMenuActive = {
 
 export const Menu = () => {
   const menu = useSelector((state: RootState) => state.home.menu);
-  const { asPath } = useRouter();
+  const { asPath, push } = useRouter();
+  const [logOut, result] = useLogOutMutation();
+
+  useEffect(() => {
+    if (result.isSuccess) {
+      push("/");
+    }
+  }, [result, push]);
 
   return (
     <Box
       sx={{
+        zIndex: 10,
         position: { xs: "fixed", sm: "fixed", md: "relative" },
       }}
     >
@@ -152,7 +163,7 @@ export const Menu = () => {
                 padding: "20px 10px",
               }}
             >
-              <IconButton aria-label="cart">
+              <IconButton aria-label="cart" onClick={logOut}>
                 <LogoutIcon
                   sx={{
                     color: "secondary.light",

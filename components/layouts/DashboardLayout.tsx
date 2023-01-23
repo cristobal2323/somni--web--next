@@ -13,14 +13,13 @@ export const DashboardLayout: FC<Props> = ({ children, title }) => {
     <>
       <Head>
         <title>{title}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
       <Navbar />
       <Box display={"flex"}>
         <Menu />
-        <Box display="flex" flex={1}>
-          {children}
-        </Box>
+        <div className="block">{children}</div>
       </Box>
     </>
   );

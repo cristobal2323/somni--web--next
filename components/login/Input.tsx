@@ -34,13 +34,14 @@ export const InputComponent = () => {
 
   const [login, result] = useLoginMutation();
 
-  const router = useRouter();
+  const { push } = useRouter();
 
   useEffect(() => {
     if (result.isSuccess) {
-      router.push("/dashboard");
+      push("/dashboard");
     }
-  }, [result, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   const onLoginUser: SubmitHandler<FormData> = async ({ email, password }) => {
     login({
