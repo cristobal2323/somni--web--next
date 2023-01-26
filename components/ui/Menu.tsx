@@ -54,12 +54,14 @@ export const Menu = () => {
   const name = useSelector((state: RootState) => state.home.name);
   const email = useSelector((state: RootState) => state.home.email);
 
-  const { asPath, push } = useRouter();
+  const { asPath, reload } = useRouter();
   const [logOut, result] = useLogOutMutation();
 
   useEffect(() => {
+    console.log(result);
     if (result.isSuccess) {
-      push("/");
+      console.log("b");
+      reload();
     }
   }, [result, push]);
 
