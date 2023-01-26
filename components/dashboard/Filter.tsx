@@ -1,13 +1,29 @@
 import React, { useState } from "react";
 
+//Next
+import { NextPage } from "next";
+
+//Material
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs, { Dayjs } from "dayjs";
 import TextField from "@mui/material/TextField";
 import { Box, Typography } from "@mui/material";
 
-export const FilterComponent = () => {
-  const [start, setStart] = React.useState<Dayjs | null>(dayjs("2022-04-07"));
-  const [end, setEnd] = React.useState<Dayjs | null>(dayjs("2022-05-07"));
+//Date
+import dayjs, { Dayjs } from "dayjs";
+dayjs.locale("en");
+
+interface Props {
+  start: Dayjs | null;
+  end: Dayjs | null;
+  changeDate: (type: string, date: Dayjs | null) => void;
+}
+
+export const FilterComponent: NextPage<Props> = ({
+  start,
+  end,
+  changeDate,
+}) => {
+  const [value, setValue] = React.useState<Dayjs | null>(null);
 
   return (
     <section className="container">
@@ -27,6 +43,9 @@ export const FilterComponent = () => {
             textAlign={"center"}
             fontSize={"30px"}
             fontWeight={200}
+            sx={{
+              display: { xs: "none", sm: "none", md: "none", lg: "block" },
+            }}
           >
             Dashboard
           </Typography>
@@ -34,31 +53,33 @@ export const FilterComponent = () => {
         <div className="flex">
           <Box marginRight={2}>
             <DatePicker
-              views={["year", "month"]}
               label="Desde"
-              minDate={dayjs("2012-03-01")}
-              maxDate={dayjs("2023-06-01")}
               value={start}
               onChange={(newValue) => {
-                setStart(newValue);
+                changeDate("start", newValue);
               }}
               renderInput={(params) => (
-                <TextField {...params} helperText={null} />
+                <TextField
+                  {...params}
+                  helperText={null}
+                  sx={{ backgroundColor: "info.main" }}
+                />
               )}
             />
           </Box>
           <Box>
             <DatePicker
-              views={["year", "month"]}
               label="Hasta"
-              minDate={dayjs("2012-03-01")}
-              maxDate={dayjs("2023-06-01")}
               value={end}
               onChange={(newValue) => {
-                setEnd(newValue);
+                changeDate("end", newValue);
               }}
               renderInput={(params) => (
-                <TextField {...params} helperText={null} />
+                <TextField
+                  {...params}
+                  helperText={null}
+                  sx={{ backgroundColor: "info.main" }}
+                />
               )}
             />
           </Box>

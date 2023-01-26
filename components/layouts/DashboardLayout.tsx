@@ -2,13 +2,15 @@ import { FC, PropsWithChildren } from "react";
 import Head from "next/head";
 
 import { Navbar, Menu } from "../ui";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 interface Props extends PropsWithChildren {
   title: string;
 }
 
 export const DashboardLayout: FC<Props> = ({ children, title }) => {
+  const theme = useTheme();
+
   return (
     <>
       <Head>
@@ -19,7 +21,12 @@ export const DashboardLayout: FC<Props> = ({ children, title }) => {
       <Navbar />
       <Box display={"flex"}>
         <Menu />
-        <div className="block">{children}</div>
+        <div
+          className="block"
+          style={{ background: theme.palette.secondary.dark }}
+        >
+          {children}
+        </div>
       </Box>
     </>
   );

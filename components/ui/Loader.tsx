@@ -5,7 +5,6 @@ import { NextPage } from "next";
 
 //Material
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { IState } from "../../interfaces/state";
 
 //redux
 import { useLogOutMutation } from "../../services/login";
@@ -15,6 +14,7 @@ interface Props {
   isError: boolean;
   seeError: boolean;
   error: string;
+  height?: string;
   resetState: () => void;
 }
 
@@ -23,19 +23,20 @@ export const Loader: NextPage<Props> = ({
   seeError,
   error,
   resetState,
+  height,
 }) => {
   const [logOut, result] = useLogOutMutation();
 
   const { push } = useRouter();
 
   useEffect(() => {
-    if (isError && !seeError) {
-      logOut({});
+    if ((isError || error) && !seeError) {
       resetState();
       push("/");
+      logOut({});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError]);
+  }, [isError, error]);
 
   return (
     <Box
@@ -44,7 +45,7 @@ export const Loader: NextPage<Props> = ({
       alignItems="center"
       flexDirection={"column"}
       sx={{
-        minHeight: `calc(100vh - 70px)`,
+        minHeight: height || `calc(100vh - 70px)`,
       }}
     >
       <CircularProgress size={50} color="secondary" />

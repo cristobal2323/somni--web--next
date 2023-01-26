@@ -13,6 +13,9 @@ import { Provider } from "react-redux";
 /* Style */
 import { lightTheme } from "../themes";
 
+import "dayjs/locale/es";
+import "dayjs/locale/en";
+
 const store = setupStore();
 
 export default function App({ Component, pageProps }: AppProps) {

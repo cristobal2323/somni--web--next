@@ -4,6 +4,7 @@ export const colors = {
 
   secondary: "#4d57c0",
   secondaryLight: "#8EB4D4",
+  secondaryDark: "#e1e8ef",
 
   info: "#ffffff",
   infoLight: "#DDDDFF",

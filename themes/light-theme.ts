@@ -11,6 +11,7 @@ export const lightTheme = createTheme({
     secondary: {
       main: colors.secondary,
       light: colors.secondaryLight,
+      dark: colors.secondaryDark,
     },
     info: {
       main: colors.info,
