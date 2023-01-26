@@ -63,7 +63,8 @@ export const Menu = () => {
       console.log("b");
       reload();
     }
-  }, [result, push]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result, reload]);
 
   useEffect(() => {
     if (name === "") {
