@@ -25,6 +25,6 @@ export const stringAvatar = (name: string) => {
       height: 45,
       bgcolor: stringToColor(name),
     },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    children: `${name.length > 2 ? name.substring(0, 2) : "us"}`,
   };
 };

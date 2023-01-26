@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 
 import GoogleIcon from "@mui/icons-material/Google";
 import AppleIcon from "@mui/icons-material/Apple";
@@ -30,13 +30,22 @@ export const ShareComponent = () => {
         marginTop={2}
         justifyContent="space-between"
       >
-        <Box
+        <Link
           display={"flex"}
           alignItems="center"
           border={"solid 1px white"}
           justifyContent="space-between"
           padding={1}
           width={110}
+          target="_blank"
+          href="https://play.google.com/store/apps/details?id=com.somni"
+          underline="hover"
+          sx={{
+            "&:hover": {
+              color: "info.light",
+              cursor: "pointer",
+            },
+          }}
         >
           <GoogleIcon sx={{ color: "#ffffff" }} />{" "}
           <Typography
@@ -51,14 +60,24 @@ export const ShareComponent = () => {
           >
             Play store
           </Typography>
-        </Box>
-        <Box
+        </Link>
+
+        <Link
           display={"flex"}
           alignItems="center"
           border={"solid 1px white"}
           justifyContent="space-between"
           padding={1}
           width={110}
+          target="_blank"
+          href="https://apps.apple.com/cl/app/somni/id1632049297?l=en"
+          underline="hover"
+          sx={{
+            "&:hover": {
+              color: "info.light",
+              cursor: "pointer",
+            },
+          }}
         >
           <AppleIcon sx={{ color: "#ffffff" }} />{" "}
           <Typography
@@ -73,7 +92,7 @@ export const ShareComponent = () => {
           >
             App Store
           </Typography>
-        </Box>
+        </Link>
       </Box>
 
       <Box

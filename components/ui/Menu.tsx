@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 //Next
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { getCookie } from "cookies-next";
 
 //Material
 import { Box, Collapse, IconButton, Link, Typography } from "@mui/material";
@@ -23,7 +24,8 @@ import { useLogOutMutation } from "../../services/login";
 import { menuUtilis } from "../../utils";
 
 //Redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setName, setEmail } from "../../slices/homeSlice";
 
 // Types
 import type { RootState } from "../../store";
@@ -46,7 +48,12 @@ const ButtonMenuActive = {
 };
 
 export const Menu = () => {
+  const dispatch = useDispatch();
+
   const menu = useSelector((state: RootState) => state.home.menu);
+  const name = useSelector((state: RootState) => state.home.name);
+  const email = useSelector((state: RootState) => state.home.email);
+
   const { asPath, push } = useRouter();
   const [logOut, result] = useLogOutMutation();
 
@@ -55,6 +62,13 @@ export const Menu = () => {
       push("/");
     }
   }, [result, push]);
+
+  useEffect(() => {
+    if (name === "") {
+      dispatch(setName(`${getCookie("name")}`));
+      dispatch(setEmail(`${getCookie("email")}`));
+    }
+  }, []);
 
   return (
     <Box
@@ -83,7 +97,7 @@ export const Menu = () => {
             flex={1}
             marginTop={1}
           >
-            <Avatar {...menuUtilis.stringAvatar("Cristobal Maturana")} />
+            <Avatar {...menuUtilis.stringAvatar(email)} />
             <Typography
               color="info.main"
               variant="h4"
@@ -91,7 +105,7 @@ export const Menu = () => {
               fontSize={"14px"}
               marginTop={1}
             >
-              Cristóbal Maturana
+              {email}
             </Typography>
             <Typography
               color="secondary.light"
@@ -100,7 +114,7 @@ export const Menu = () => {
               fontSize={"12px"}
               marginTop={0.5}
             >
-              Administrador
+              {name}
             </Typography>
           </Box>
           <Box

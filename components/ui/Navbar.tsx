@@ -88,7 +88,8 @@ export const Navbar = () => {
           Descarga Somni:
         </Typography>
         <Link
-          href="#"
+          target="_blank"
+          href="https://apps.apple.com/cl/app/somni/id1632049297?l=en"
           underline="hover"
           sx={{
             fontSize: "14px",
@@ -103,6 +104,7 @@ export const Navbar = () => {
           App Store
         </Link>
         <Link
+          target="_blank"
           sx={{
             fontSize: "14px",
             marginLeft: 2,
@@ -113,7 +115,7 @@ export const Navbar = () => {
               cursor: "pointer",
             },
           }}
-          href="#"
+          href="https://play.google.com/store/apps/details?id=com.somni"
           underline="hover"
         >
           Play store

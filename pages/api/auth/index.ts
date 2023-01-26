@@ -1,5 +1,6 @@
 // Next.js API
 import type { NextApiRequest, NextApiResponse } from "next";
+import { setCookie, deleteCookie } from "cookies-next";
 
 //libs
 import axios from "axios";
@@ -53,6 +54,9 @@ async function auth(req: NextApiRequest, res: NextApiResponse<Data>) {
       req.session.user = {
         token: data.auth_token,
       };
+      setCookie("email", data.usuario.email, { req, res });
+      setCookie("name", data.usuario.username, { req, res });
+
       await req.session.save();
     }
 
@@ -68,6 +72,8 @@ async function auth(req: NextApiRequest, res: NextApiResponse<Data>) {
 async function logOut(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
     req.session.destroy();
+    deleteCookie("email", { req, res });
+    deleteCookie("name", { req, res });
     res.send({ message: "Sesión cerrada" });
   } catch (error) {
     console.log(error);
