@@ -8,9 +8,10 @@ import { Grid, Typography, Box, Button } from "@mui/material";
 
 import {
   ResponsiveContainer,
-  BarChart,
-  Bar,
   XAxis,
+  LineChart,
+  Line,
+  ReferenceLine,
   YAxis,
   TooltipProps,
   Tooltip,
@@ -18,31 +19,33 @@ import {
 
 //types
 
-import { IResumenPersonas } from "../../interfaces/";
+import { IResumenPorcentajePersonas } from "../../interfaces/";
 import { LoaderComponent } from "../ui";
 
 interface Props {
-  data: IResumenPersonas;
+  data: IResumenPorcentajePersonas;
   isFetching: boolean;
 }
 
 interface IResumenObjPersonas {
-  q_con_riesgo: number;
-  q_sin_riesgo: number;
   nombre_completo: string;
+  porcentaje_promedio_con_riesgo_limite: number;
+  promedio_de_porcentaje_de_riesgo: number;
 }
 
-export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
+export const PorcentajeComponent: NextPage<Props> = ({ data, isFetching }) => {
   if (!data.ejecucion.estado) {
     <Typography fontWeight={900}>Ejecución false</Typography>;
   }
+
+  const { curva_promedios, curva_limites } = data.datos;
 
   const [all, setAll] = useState<boolean>(false);
 
   let arr: IResumenObjPersonas[] = [];
 
   arr = useMemo(() => {
-    const memory: IResumenObjPersonas[] = data.datos.datos.map((item) => {
+    const memory: IResumenObjPersonas[] = curva_promedios.datos.map((item) => {
       let nombreCompletoCorregido = item.nombre_completo.replace(
         /^\s+|\s+$|\s+(?=\s)/g,
         ""
@@ -55,25 +58,21 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
 
       let nombreCompleto = primeraLetra + apellidoCompleto;
 
+      const cp: number = item.promedio_de_porcentaje_de_riesgo
+        ? parseFloat(item.promedio_de_porcentaje_de_riesgo) || 0
+        : 0;
+
       return {
         nombre_completo: nombreCompleto,
-        q_con_riesgo: item.q_con_riesgo,
-        q_sin_riesgo: item.q_sin_riesgo,
+        promedio_de_porcentaje_de_riesgo: cp,
+        porcentaje_promedio_con_riesgo_limite:
+          curva_limites.datos[0]?.porcentaje_promedio_con_riesgo_limite || 0,
       };
     });
 
     return memory;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-
-  const filterData = (
-    dataFilter: IResumenObjPersonas[]
-  ): IResumenObjPersonas[] => {
-    if (all) {
-      return dataFilter;
-    }
-    return dataFilter.filter((o) => o.q_con_riesgo > 0 || o.q_sin_riesgo > 0);
-  };
 
   const CustomTooltip = ({
     active,
@@ -102,31 +101,33 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
               component="span"
               width={14}
               height={14}
-              bgcolor={"#118dff"}
+              bgcolor={"#e76262"}
               marginRight={1}
             />{" "}
-            Con riesgo: {payload[0]?.payload?.q_con_riesgo}
-          </Typography>
-          <Typography
-            fontSize={14}
-            fontWeight={400}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Box
-              component="span"
-              width={14}
-              height={14}
-              bgcolor={"#4673f0"}
-              marginRight={1}
-            />{" "}
-            Sin riesgo: {payload[0]?.payload?.q_sin_riesgo}
+            Porcentaje de riesgo:{" "}
+            {payload[0]?.payload?.promedio_de_porcentaje_de_riesgo}
           </Typography>
         </Box>
       );
     }
 
     return null;
+  };
+
+  const filterData = (
+    dataFilter: IResumenObjPersonas[]
+  ): IResumenObjPersonas[] => {
+    if (all) {
+      return dataFilter;
+    }
+    return dataFilter.filter((o) => o.promedio_de_porcentaje_de_riesgo > 0);
+  };
+
+  const getInterval = (value: number): number => {
+    if (value > 15) {
+      return Math.ceil(value / 15);
+    }
+    return 0;
   };
 
   return (
@@ -138,7 +139,7 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
         padding={"20px 10px"}
         borderRadius={3}
         border={"solid 1px #ccc"}
-        height={filterData(arr).length * 40 + 115}
+        height={350}
       >
         {isFetching && <LoaderComponent borderRadius={5} />}
 
@@ -166,7 +167,7 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
               paddingX={2}
             >
               <Typography variant="h6" fontWeight={500} fontSize={16}>
-                Controles por persona
+                Porcentaje riesgo por persona
               </Typography>
               <Button
                 variant={all ? "contained" : "outlined"}
@@ -196,10 +197,10 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
                   component="span"
                   width={14}
                   height={14}
-                  bgcolor={"#118dff"}
+                  bgcolor={"#e76262"}
                   marginRight={1}
                 />
-                Con riesgo
+                Promedio de % riesgo
               </Typography>
               <Typography
                 variant="body1"
@@ -213,50 +214,67 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
                   component="span"
                   width={14}
                   height={14}
-                  bgcolor={"#4673f0"}
+                  bgcolor={"#0c4d05"}
                   marginRight={1}
                 />
-                Sin riesgo
+                Promedio de % riesgo límite
               </Typography>
             </Box>
-            <ResponsiveContainer
-              width={"99.9%"}
-              height={filterData(arr).length * 40}
-            >
-              <BarChart
+            <ResponsiveContainer width={"99.9%"} height={300}>
+              <LineChart
                 data={filterData(arr)}
-                layout="vertical"
-                margin={{ left: 40, right: 35, bottom: 25 }}
+                margin={{
+                  top: 5,
+                  right: 55,
+                  left: 20,
+                  bottom: 135,
+                }}
               >
-                <Tooltip
-                  wrapperStyle={{ outline: "none" }}
-                  content={<CustomTooltip />}
-                />
                 <XAxis
-                  axisLine={true}
-                  tick={{ fontSize: 12 }}
-                  type="number"
-                  label={{
-                    value: data.datos.label_cantidad_de_controles,
-                    position: "insideBottom",
-                    dy: 15,
-                    fontWeight: 400,
-                  }}
-                />
-                <YAxis
-                  interval={0}
-                  tick={{ fontSize: 12 }}
                   dataKey="nombre_completo"
-                  type="category"
+                  interval={getInterval(filterData(arr).length)}
+                  angle={280}
+                  dx={0}
+                  dy={30}
+                  tick={{ fontSize: 12 }}
                   label={{
                     fontSize: "12px",
                     fontWeight: 400,
                   }}
-                />
+                ></XAxis>
 
-                <Bar dataKey="q_con_riesgo" fill="#118dff" stackId="a" />
-                <Bar dataKey="q_sin_riesgo" fill="#4673f0" stackId="a" />
-              </BarChart>
+                <YAxis
+                  yAxisId="left"
+                  tick={{ fontSize: 12 }}
+                  label={{
+                    value: "Nivel de riesgo",
+                    angle: -90,
+                    dy: 35,
+                    position: "insideLeft",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  }}
+                ></YAxis>
+
+                <Tooltip
+                  wrapperStyle={{ outline: "none" }}
+                  content={<CustomTooltip />}
+                />
+                <ReferenceLine
+                  y={
+                    curva_limites.datos[0]
+                      ?.porcentaje_promedio_con_riesgo_limite || 0
+                  }
+                  yAxisId="left"
+                  stroke="#0c4d05"
+                />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="promedio_de_porcentaje_de_riesgo"
+                  stroke="#e76262"
+                />
+              </LineChart>
             </ResponsiveContainer>
           </div>
         </div>

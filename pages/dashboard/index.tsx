@@ -10,6 +10,7 @@ import {
   BoxsComponent,
   TiempoComponent,
   PersonasComponent,
+  PorcentajeComponent,
 } from "../../components/dashboard";
 import { Loader } from "../../components/ui";
 
@@ -53,7 +54,6 @@ const HomePage: NextPage = () => {
     }
   };
 
-  console.log(data, error);
   return (
     <DashboardLayout title={"Somni Dashboard"}>
       <FilterComponent changeDate={changeDate} start={start} end={end} />
@@ -79,12 +79,14 @@ const HomePage: NextPage = () => {
                     isFetching={isFetching}
                     data={data.data.resumenTiempo}
                   />
-
                   <PersonasComponent
                     isFetching={isFetching}
                     data={data.data.resumenPersonas}
                   />
-
+                  <PorcentajeComponent
+                    isFetching={isFetching}
+                    data={data.data.resumenPorcentajePersonas}
+                  />
                   {/* 
                   <PersonasComponent
                     isFetching={isFetching}

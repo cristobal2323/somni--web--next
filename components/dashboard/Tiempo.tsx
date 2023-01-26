@@ -134,16 +134,6 @@ export const TiempoComponent: NextPage<Props> = ({ data, isFetching }) => {
             />{" "}
             Sin riesgo: {payload[0]?.payload?.q_sin_riesgo}
           </Typography>
-          {/*  <Typography
-            fontSize={14}
-            fontWeight={400}
-            display={"flex"}
-            alignItems={"center"}
-          >
-            <Box width={14} height={14} bgcolor={"#4673f0"} marginRight={1} />{" "}
-            Porcentaje con riesgo limite:{" "}
-            {payload[0]?.payload?.porcentaje_promedio_con_riesgo_limite}
-          </Typography> */}
           <Typography
             fontSize={14}
             fontWeight={400}
@@ -179,6 +169,7 @@ export const TiempoComponent: NextPage<Props> = ({ data, isFetching }) => {
         height={378}
         border={"solid 1px #ccc"}
       >
+        {isFetching && <LoaderComponent borderRadius={5} />}
         <div
           style={{
             width: "100%",
@@ -195,10 +186,9 @@ export const TiempoComponent: NextPage<Props> = ({ data, isFetching }) => {
               left: 0,
             }}
           >
-            {isFetching && <LoaderComponent borderRadius={5} />}
             <Box display={"flex"} justifyContent={"center"} marginBottom={1}>
               <Typography variant="h6" fontWeight={500} fontSize={16}>
-                Resultado de controles
+                Controles realizados en el tiempo
               </Typography>
             </Box>
 
