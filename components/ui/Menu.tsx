@@ -58,9 +58,7 @@ export const Menu = () => {
   const [logOut, result] = useLogOutMutation();
 
   useEffect(() => {
-    console.log(result);
     if (result.isSuccess) {
-      console.log("b");
       reload();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

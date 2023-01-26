@@ -9,6 +9,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 //redux
 import { useLogOutMutation } from "../../services/login";
 import { useRouter } from "next/router";
+import { setTimeout } from "timers/promises";
 
 interface Props {
   isError: boolean;
@@ -27,16 +28,18 @@ export const Loader: NextPage<Props> = ({
 }) => {
   const [logOut, result] = useLogOutMutation();
 
-  const { push } = useRouter();
+  const { reload } = useRouter();
 
   useEffect(() => {
     if ((isError || error) && !seeError) {
       resetState();
-      push("/");
       logOut({});
     }
+    if (result.isSuccess) {
+      reload();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError, error]);
+  }, [isError, error, result]);
 
   return (
     <Box
