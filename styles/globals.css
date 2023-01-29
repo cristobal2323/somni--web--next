@@ -29,6 +29,20 @@
 }
 
 .block {
+    width: calc(100% - 300px);
     display: block;
     flex: 1
+}
+
+/* Filters */
+.containerViewOc {
+    width: 100%;
+    position: relative;
+    border: solid 1px #ccc;
+    border-bottom: 0;
+    border-left: 0;
+    margin-top: 2rem;
+    background-color: white;
+    overflow-y: scroll;
+    height: calc(100vh - 200px);
 }

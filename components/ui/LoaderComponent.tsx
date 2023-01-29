@@ -6,16 +6,20 @@ import { Box, CircularProgress } from "@mui/material";
 
 interface Props {
   borderRadius: number;
+  alignItems?: string;
 }
 
-export const LoaderComponent: NextPage<Props> = ({ borderRadius }) => {
+export const LoaderComponent: NextPage<Props> = ({
+  borderRadius,
+  alignItems,
+}) => {
   return (
     <Box
       borderRadius={borderRadius}
       display={"flex"}
+      paddingY={5}
       justifyContent={"center"}
-      alignItems="center"
-      flexDirection={"column"}
+      alignItems={alignItems ? alignItems : "center"}
       position={"absolute"}
       zIndex={5}
       width={"100%"}

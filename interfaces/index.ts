@@ -4,3 +4,4 @@ export * from "./resumenPersonas";
 export * from "./resumenTiempo";
 export * from "./resumenPorcentajePersonas";
 export * from "./state";
+export * from "./reportePersonas";

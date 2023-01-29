@@ -20,7 +20,7 @@ import {
 
 //types
 
-import { IResumenTiempo } from "../../interfaces/resumenTiempo";
+import { IResumenTiempo } from "../../interfaces";
 import { LoaderComponent } from "../ui";
 
 interface IResumenPorcentajePersonas {
