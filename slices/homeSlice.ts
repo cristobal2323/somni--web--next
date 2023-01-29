@@ -5,12 +5,14 @@ export interface HomeState {
   menu: boolean;
   name: string;
   email: string;
+  empresa_id: string;
 }
 
 const initialState: HomeState = {
   menu: true,
   name: "",
   email: "",
+  empresa_id: "",
 };
 
 export const HomeSlice = createSlice({
@@ -32,11 +34,20 @@ export const HomeSlice = createSlice({
     setName: (state, action) => {
       state.name = action.payload;
     },
+    setEmpresaId: (state, action) => {
+      state.empresa_id = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { toogleMenu, openMenu, closeMenu, setEmail, setName } =
-  HomeSlice.actions;
+export const {
+  toogleMenu,
+  openMenu,
+  closeMenu,
+  setEmail,
+  setName,
+  setEmpresaId,
+} = HomeSlice.actions;
 
 export default HomeSlice.reducer;

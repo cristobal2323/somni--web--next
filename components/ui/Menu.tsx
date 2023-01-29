@@ -25,7 +25,7 @@ import { menuUtilis } from "../../utils";
 
 //Redux
 import { useDispatch, useSelector } from "react-redux";
-import { setName, setEmail } from "../../slices/homeSlice";
+import { setName, setEmail, setEmpresaId } from "../../slices/homeSlice";
 
 // Types
 import type { RootState } from "../../store";
@@ -68,6 +68,7 @@ export const Menu = () => {
     if (name === "") {
       dispatch(setName(`${getCookie("name")}`));
       dispatch(setEmail(`${getCookie("email")}`));
+      dispatch(setEmpresaId(`${getCookie("empresa_id")}`));
     }
   }, []);
 

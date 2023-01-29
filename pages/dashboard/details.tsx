@@ -53,12 +53,12 @@ const DetailsPage: NextPage = () => {
   };
 
   return (
-    <DashboardLayout title={"Somni control de personas"}>
+    <DashboardLayout title={"Somni detalles controles"}>
       <FilterComponent changeDate={changeDate} start={start} end={end} />
 
       {isLoading || isError ? (
         <Loader
-          height="calc(100vh - 130px)"
+          height="calc(100vh - 120px)"
           resetState={resetState}
           isError={isError}
           seeError={false}

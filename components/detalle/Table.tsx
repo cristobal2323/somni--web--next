@@ -7,7 +7,6 @@ import { NextPage } from "next";
 import { Grid, Typography, Box } from "@mui/material";
 
 //types
-
 import { IReporteDetalle } from "../../interfaces";
 import { LoaderComponent } from "../ui";
 

@@ -56,7 +56,7 @@ async function auth(req: NextApiRequest, res: NextApiResponse<Data>) {
       };
       setCookie("email", data.usuario.email, { req, res });
       setCookie("name", data.usuario.username, { req, res });
-
+      setCookie("empresa_id", data.usuario.empresa_id, { req, res });
       await req.session.save();
     }
 
@@ -74,6 +74,7 @@ async function logOut(req: NextApiRequest, res: NextApiResponse<Data>) {
     req.session.destroy();
     deleteCookie("email", { req, res });
     deleteCookie("name", { req, res });
+    deleteCookie("empresa_id", { req, res });
     res.send({ message: "Sesión cerrada" });
   } catch (error) {
     console.log(error);
