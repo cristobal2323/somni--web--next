@@ -22,7 +22,6 @@ export const ControlComponent: NextPage<Props> = ({ data, isFetching }) => {
   }
 
   const getColors = (color: string) => {
-    console.log(color);
     if (color === "#000000") {
       return {
         background: "#8EB4D4",

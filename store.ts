@@ -6,6 +6,7 @@ import type { PreloadedState } from "@reduxjs/toolkit";
 import { homeApi } from "./services/home";
 import { loginApi } from "./services/login";
 import { reportePersonasApi } from "./services/reportePersonas";
+import { reporteDetalleApi } from "./services/reporteDetalle";
 
 //Slices
 import homeReducer from "./slices/homeSlice";
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   [loginApi.reducerPath]: loginApi.reducer,
   [homeApi.reducerPath]: homeApi.reducer,
   [reportePersonasApi.reducerPath]: reportePersonasApi.reducer,
+  [reporteDetalleApi.reducerPath]: reporteDetalleApi.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
@@ -31,7 +33,8 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
       getDefaultMiddleware().concat(
         loginApi.middleware,
         homeApi.middleware,
-        reportePersonasApi.middleware
+        reportePersonasApi.middleware,
+        reporteDetalleApi.middleware
       ),
     preloadedState,
   });
