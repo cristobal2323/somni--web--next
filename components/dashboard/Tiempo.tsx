@@ -60,7 +60,7 @@ export const TiempoComponent: NextPage<Props> = ({ data, isFetching }) => {
       let clone = {
         fecha: element.fecha || "",
         q_con_riesgo: element.q_con_riesgo || 0,
-        q_sin_riesgo: element.q_con_riesgo || 0,
+        q_sin_riesgo: element.q_sin_riesgo || 0,
         porcentaje_promedio_con_riesgo_limite:
           index >= 0
             ? curva_porcentaje_promedio_con_riesgo_limite.datos[index]

@@ -70,7 +70,15 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
     }
     return dataFilter.filter((o) => o.q_con_riesgo > 0 || o.q_sin_riesgo > 0);
   };
+  const totalHeight = (value: number): number => {
+    if (value > 10) {
+      return value * 40;
+    } else if (value === 1) {
+      return value * 80;
+    }
 
+    return value * 60;
+  };
   const CustomTooltip = ({
     active,
     payload,
@@ -134,7 +142,7 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
         padding={"20px 10px"}
         borderRadius={3}
         border={"solid 1px #ccc"}
-        height={filterData(arr).length * 65 + 115}
+        height={totalHeight(filterData(arr).length) + 115}
       >
         {isFetching && <LoaderComponent borderRadius={5} />}
 
@@ -217,7 +225,7 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
             </Box>
             <ResponsiveContainer
               width={"99.9%"}
-              height={filterData(arr).length * 65}
+              height={totalHeight(filterData(arr).length)}
             >
               <BarChart
                 data={filterData(arr)}
