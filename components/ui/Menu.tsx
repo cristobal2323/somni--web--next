@@ -70,7 +70,7 @@ export const Menu = () => {
       dispatch(setEmail(`${getCookie("email")}`));
       dispatch(setEmpresaId(`${getCookie("empresa_id")}`));
     }
-  }, []);
+  });
 
   return (
     <Box
@@ -142,7 +142,7 @@ export const Menu = () => {
               }}
             >
               <IconButton aria-label="cart">
-                <Badge badgeContent={4} color="error">
+                <Badge badgeContent={0} color="error">
                   <NotificationsIcon
                     sx={{
                       color: "secondary.light",

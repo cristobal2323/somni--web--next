@@ -18,10 +18,6 @@ interface Props {
 }
 
 export const BoxsComponent: NextPage<Props> = ({ data, isFetching }) => {
-  if (!data.ejecucion.estado) {
-    <Typography fontWeight={900}>Ejecución false</Typography>;
-  }
-
   const total_controles = data.datos.totales.total_controles.valor;
   const controles_con_riesgo = data.datos.totales.controles_con_riesgo.valor;
 

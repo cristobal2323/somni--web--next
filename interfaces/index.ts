@@ -7,3 +7,4 @@ export * from "./state";
 export * from "./reportePersonas";
 export * from "./reporteDetalle";
 export * from "./users";
+export * from "./roles";

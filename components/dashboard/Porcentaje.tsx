@@ -34,10 +34,6 @@ interface IResumenObjPersonas {
 }
 
 export const PorcentajeComponent: NextPage<Props> = ({ data, isFetching }) => {
-  if (!data.ejecucion.estado) {
-    <Typography fontWeight={900}>Ejecución false</Typography>;
-  }
-
   const { curva_promedios, curva_limites } = data.datos;
 
   const [all, setAll] = useState<boolean>(false);

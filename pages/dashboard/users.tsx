@@ -40,7 +40,7 @@ const UsersPage: NextPage = () => {
   };
 
   return (
-    <DashboardLayout title={"Somni Dashboard"}>
+    <DashboardLayout title={"Somni users"}>
       <FilterComponent search={search} changeInputSearch={changeInputSearch} />
 
       {isLoading || isError ? (

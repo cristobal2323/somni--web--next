@@ -33,10 +33,6 @@ interface IResumenObjPersonas {
 }
 
 export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
-  if (!data.ejecucion.estado) {
-    <Typography fontWeight={900}>Ejecución false</Typography>;
-  }
-
   const [all, setAll] = useState<boolean>(false);
 
   let arr: IResumenObjPersonas[] = [];

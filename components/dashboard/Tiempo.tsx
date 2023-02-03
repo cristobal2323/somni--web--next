@@ -44,10 +44,6 @@ export const TiempoComponent: NextPage<Props> = ({ data, isFetching }) => {
     curva_promedio_de_porcentaje_de_riesgo,
   } = datos;
 
-  if (!data.ejecucion.estado) {
-    <Typography fontWeight={900}>Ejecución false</Typography>;
-  }
-
   let arr: IResumenPorcentajePersonas[] = [];
 
   arr = useMemo(() => {

@@ -6,12 +6,23 @@ import axios from "axios";
 import { withSessionRoute } from "../../../utils/sesion";
 
 //types
-import { IUsers, IState, IMessage } from "../../../interfaces/";
+import { IState, IMessage } from "../../../interfaces/";
 
+interface IAsignacion {
+  ejecucion: Ejecucion;
+  datos: null;
+}
+
+interface Ejecucion {
+  estado: boolean;
+  mensaje: string;
+}
+
+// Types
 type Data = {
   message: IMessage;
   state: IState;
-  data: IUsers | null;
+  data: IAsignacion | null;
 };
 
 declare module "iron-session" {
@@ -24,11 +35,11 @@ declare module "iron-session" {
 
 export default withSessionRoute(handler);
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   //Handle Login
   switch (req.method) {
-    case "GET":
-      return getData(req, res);
+    case "POST":
+      return postData(req, res);
     default:
       return res.status(400).json({
         message: "Bad request",
@@ -38,13 +49,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-async function getData(req: NextApiRequest, res: NextApiResponse<Data>) {
+async function postData(req: NextApiRequest, res: NextApiResponse<Data>) {
   try {
-    const obj = req.query;
+    const obj = req.body;
 
-    console.log(`${process.env.API_BACK}liusers`, obj);
+    console.log(`${process.env.API_BACK}asigturnouser`, obj);
     const response = await axios.post(
-      `${process.env.API_BACK}liusers.json`,
+      `${process.env.API_BACK}asigturnouser.json`,
       obj,
       {
         headers: {
