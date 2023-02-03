@@ -46,7 +46,7 @@ export const ModalRoleComponent: NextPage<Props> = ({
   roles,
 }) => {
   //state
-  const [refresh, setRefresh] = useState<number>([]);
+  const [refresh, setRefresh] = useState<number>(0);
 
   //Style
   const theme = useTheme();
