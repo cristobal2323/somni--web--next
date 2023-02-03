@@ -134,7 +134,7 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
         padding={"20px 10px"}
         borderRadius={3}
         border={"solid 1px #ccc"}
-        height={filterData(arr).length * 40 + 115}
+        height={filterData(arr).length * 65 + 115}
       >
         {isFetching && <LoaderComponent borderRadius={5} />}
 
@@ -217,7 +217,7 @@ export const PersonasComponent: NextPage<Props> = ({ data, isFetching }) => {
             </Box>
             <ResponsiveContainer
               width={"99.9%"}
-              height={filterData(arr).length * 40}
+              height={filterData(arr).length * 65}
             >
               <BarChart
                 data={filterData(arr)}
