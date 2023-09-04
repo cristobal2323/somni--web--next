@@ -33,9 +33,9 @@ export const middleware = async (req: NextRequest) => {
 
   // demo:
   if (user?.token === undefined && pathname !== "/") {
-    return NextResponse.redirect(new URL("/", req.url)); // redirect to /unauthorized page
+    return NextResponse.redirect(new URL("/", req.url), 301); // redirect to /unauthorized page
   } else if (pathname === "/" && user?.token !== undefined) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url), 301);
   }
 
   return res;
