@@ -93,15 +93,16 @@ export const FormComponent: NextPage = () => {
 
   // TODO: AGREGAR VALOR A LAS PASSWORD PARA QUE SE MUESTREN ******
   // TODO: TERMINAR EL AGREGAR USUARIO
-  // TODO: PREGUNTAR POR QUE LOS ERRORES
 
   return (
     <Box
-      margin={2}
-      padding={5}
       position={"relative"}
-      backgroundColor="white"
-      height={"calc(100vh - 120px)"}
+      sx={{
+        m: 2,
+        p: 5,
+        backgroundColor: "white",
+        height: "calc(100vh - 120px)",
+      }}
     >
       <Box
         sx={{
@@ -190,15 +191,6 @@ export const FormComponent: NextPage = () => {
               changeDate(newValue);
             }}
             sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                helperText={null}
-                sx={{
-                  backgroundColor: "info.main",
-                }}
-              />
-            )}
           />
         </FormControl>
       </Box>
