@@ -12,13 +12,6 @@ import { usersApi } from "./services/users";
 //Slices
 import homeReducer from "./slices/homeSlice";
 
-/* console.debug(
-  loginApi.reducerPath,
-  homeApi.reducerPath,
-  reportePersonasApi.reducerPath
-);
- */
-
 const rootReducer = combineReducers({
   home: homeReducer,
   [loginApi.reducerPath]: loginApi.reducer,

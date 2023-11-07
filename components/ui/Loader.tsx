@@ -9,7 +9,6 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 //redux
 import { useLogOutMutation } from "../../services/login";
 import { useRouter } from "next/router";
-import { setTimeout } from "timers/promises";
 
 interface Props {
   isError: boolean;

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect } from "react";
 
 //Next
 import NextLink from "next/link";
@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
 
 //Material
-import { Box, Collapse, IconButton, Link, Typography } from "@mui/material";
+import { Box, Collapse, IconButton, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -246,7 +246,8 @@ export const Menu = () => {
                       display={"flex"}
                       alignItems={"center"}
                       sx={
-                        asPath === "/dashboard/users"
+                        asPath === "/dashboard/users" ||
+                        asPath === "/dashboard/users/add-user"
                           ? ButtonMenuActive
                           : ButtonMenu
                       }

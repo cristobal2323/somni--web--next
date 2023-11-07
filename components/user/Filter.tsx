@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 
 //Next
+import NextLink from "next/link";
 import { NextPage } from "next";
 
 import TextField from "@mui/material/TextField";
 import { Box, Typography } from "@mui/material";
+import { ColorButton } from "../../utils/customButtons";
 
 interface Props {
   search: string;
@@ -40,7 +42,13 @@ export const FilterComponent: NextPage<Props> = ({
             Listado de usuarios
           </Typography>
         </div>
-        <div className="flex">
+        <Box display={"flex"} gap={10} alignItems={"center"}>
+          <NextLink href="/dashboard/users/add-user">
+            <Box>
+              <ColorButton>Agregar Usuario</ColorButton>
+            </Box>
+          </NextLink>
+
           <Box>
             <TextField
               value={search}
@@ -49,13 +57,13 @@ export const FilterComponent: NextPage<Props> = ({
               }}
               color={"secondary"}
               helperText={null}
-              label="buscar"
+              label="Buscar"
               sx={{
                 backgroundColor: "info.main",
               }}
             />
           </Box>
-        </div>
+        </Box>
       </Box>
     </section>
   );

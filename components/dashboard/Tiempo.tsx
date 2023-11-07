@@ -89,6 +89,9 @@ export const TiempoComponent: NextPage<Props> = ({ data, isFetching }) => {
     label,
   }: TooltipProps<number, string>) => {
     if (active && payload && payload.length) {
+      let porcentaje2Decimales =
+        (payload[0]?.payload?.promedio_de_porcentaje_de_riesgo).toFixed(2);
+
       return (
         <Box
           bgcolor={"rgba(255,255,255,0.85)"}
@@ -143,8 +146,7 @@ export const TiempoComponent: NextPage<Props> = ({ data, isFetching }) => {
               bgcolor={"#e76262"}
               marginRight={1}
             />{" "}
-            Porcentaje de riesgo:{" "}
-            {payload[0]?.payload?.promedio_de_porcentaje_de_riesgo}
+            Porcentaje de riesgo: {porcentaje2Decimales}
           </Typography>
         </Box>
       );

@@ -10,7 +10,6 @@ export const middleware = async (req: NextRequest) => {
   const session = await getIronSession(req, res, {
     password: process.env.SESION_PASS || "",
     cookieName: process.env.SESION_COOKIE || "",
-    // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
     cookieOptions: {
       secure: process.env.NODE_ENV === "production",
     },
