@@ -143,8 +143,6 @@ export const FormComponent: NextPage = () => {
     });
   };
 
-  // TODO: TERMINAR EL AGREGAR USUARIO
-
   return (
     <Box
       position={"relative"}
@@ -162,6 +160,7 @@ export const FormComponent: NextPage = () => {
         message={
           result?.data?.data.ejecucion.mensaje ?? "Hable con el administrador"
         }
+        result={result}
       />
 
       <Box display={"flex"} gap={3} flexDirection={"column"} width={"100%"}>

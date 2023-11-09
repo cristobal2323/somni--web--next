@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import {
   Dialog,
   DialogTitle,
@@ -17,6 +18,7 @@ interface Props {
   openModal: boolean;
   isLoading: boolean;
   message: string;
+  result: any;
 }
 
 export const ModalComponent: NextPage<Props> = ({
@@ -24,12 +26,12 @@ export const ModalComponent: NextPage<Props> = ({
   handleCloseModal,
   isLoading,
   message,
+  result,
 }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  //   TODO: BORRAR ESTO
-  let status = 0;
+  const router = useRouter();
 
   return (
     <Dialog
@@ -45,14 +47,21 @@ export const ModalComponent: NextPage<Props> = ({
         id="alert-dialog-description"
         style={{ padding: "15px" }}
       >
-        {status === 200 ? (
+        {result.data?.data.ejecucion.estado ? (
           <Typography>Usuario Creado correctamente</Typography>
         ) : (
-          <Typography>error al crear usuario</Typography>
+          <Typography>{message}</Typography>
         )}
       </DialogContentText>
       <DialogActions>
-        <Button onClick={() => handleCloseModal()} autoFocus>
+        <Button
+          onClick={() =>
+            result.data?.data.ejecucion.estado
+              ? (handleCloseModal(), router.push("/dashboard/users"))
+              : handleCloseModal()
+          }
+          autoFocus
+        >
           {isLoading ? "Cargando..." : "Cerrar"}
         </Button>
       </DialogActions>

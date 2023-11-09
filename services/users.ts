@@ -49,6 +49,10 @@ type ParametersAddOperario = {
   empresa_id: string;
 };
 
+type ParametersDeleteOperario = {
+  user_id: number;
+};
+
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: baseQuery,
@@ -95,6 +99,14 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
+    deleteOperario: builder.mutation<Data, ParametersDeleteOperario>({
+      query: (body) => ({
+        url: `users`,
+        body,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
@@ -105,4 +117,5 @@ export const {
   useGetRolesQuery,
   usePostRolesMutation,
   usePostAddOperarioMutation,
+  useDeleteOperarioMutation,
 } = usersApi;
