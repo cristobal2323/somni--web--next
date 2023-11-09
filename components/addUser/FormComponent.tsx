@@ -13,10 +13,18 @@ import {
   SelectChangeEvent,
   MenuItem,
   InputLabel,
+  Typography,
 } from "@mui/material";
-
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+
+// Components
 import { ColorButton } from "../../utils/customButtons";
+
+//  Service
+import { usePostAddOperarioMutation } from "../../services/users";
+import { ModalComponent } from "./index";
+import { getCookies } from "cookies-next";
 
 interface FormState {
   username: string;
@@ -33,6 +41,20 @@ interface FormState {
 
 export const FormComponent: NextPage = () => {
   const [error, setError] = useState(true);
+  const [errorPassword, setErrorPassword] = useState(true);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
+
+  const [addOperario, result] = usePostAddOperarioMutation();
+
+  useEffect(() => {
+    if (result.isSuccess) {
+      setShowModal(true);
+    }
+  }, [result.isSuccess]);
 
   const [form, setForm] = useState<FormState>({
     username: "",
@@ -66,6 +88,22 @@ export const FormComponent: NextPage = () => {
     }
   }, [form]);
 
+  useEffect(() => {
+    if (form.password !== form.password_confirmation) {
+      setErrorPassword(true);
+    } else {
+      setErrorPassword(false);
+    }
+  }, [form.password, form.password_confirmation]);
+
+  const handleShowPassword = () => {
+    setShow(!show);
+  };
+
+  const handleShowPassword2 = () => {
+    setShow2(!show2);
+  };
+
   const onChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
@@ -88,10 +126,23 @@ export const FormComponent: NextPage = () => {
   };
 
   const handleAddUser = () => {
-    console.log("add user");
+    const empresaId = getCookies().empresa_id ?? "";
+
+    addOperario({
+      username: form.username,
+      nombres: form.nombres,
+      apellido_paterno: form.apellido_paterno,
+      apellido_materno: form.apellido_materno,
+      uid: form.uid,
+      fecha_nacimiento: form.fecha_nacimiento?.format("DD-MM-YYYY") ?? "",
+      email: form.email,
+      password: form.password,
+      password_confirmation: form.password_confirmation,
+      lenguaje: form.lenguaje,
+      empresa_id: empresaId,
+    });
   };
 
-  // TODO: AGREGAR VALOR A LAS PASSWORD PARA QUE SE MUESTREN ******
   // TODO: TERMINAR EL AGREGAR USUARIO
 
   return (
@@ -101,171 +152,168 @@ export const FormComponent: NextPage = () => {
         m: 2,
         p: 5,
         backgroundColor: "white",
-        height: "calc(100vh - 120px)",
+        height: "calc(100vh - 250px)",
       }}
     >
-      <Box
-        sx={{
-          m: 2,
-          display: "flex",
-          flexDirection: "row",
-          gap: 15,
-        }}
-      >
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="Nombre de Usuario"
-            value={form.username}
-            onChange={onChangeForm}
-            name="username"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
+      <ModalComponent
+        openModal={showModal}
+        handleCloseModal={() => setShowModal(false)}
+        isLoading={result.isLoading}
+        message={
+          result?.data?.data.ejecucion.mensaje ?? "Hable con el administrador"
+        }
+      />
 
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="Nombres"
-            value={form.nombres}
-            onChange={onChangeForm}
-            name="nombres"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
+      <Box display={"flex"} gap={3} flexDirection={"column"} width={"100%"}>
+        <Box display={"flex"} gap={2}>
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="Nombre de Usuario"
+              value={form.username}
+              onChange={onChangeForm}
+              name="username"
+            />
+          </FormControl>
+
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="Nombres"
+              value={form.nombres}
+              onChange={onChangeForm}
+              name="nombres"
+            />
+          </FormControl>
+        </Box>
+
+        <Box display={"flex"} gap={2}>
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="Apellido Paterno"
+              value={form.apellido_paterno}
+              onChange={onChangeForm}
+              name="apellido_paterno"
+            />
+          </FormControl>
+
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="Apellido Materno"
+              value={form.apellido_materno}
+              onChange={onChangeForm}
+              name="apellido_materno"
+            />
+          </FormControl>
+        </Box>
+
+        <Box display={"flex"} gap={2}>
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="UID"
+              value={form.uid}
+              onChange={onChangeForm}
+              name="uid"
+            />
+          </FormControl>
+
+          <FormControl sx={{ width: "50%" }}>
+            <DatePicker
+              label="Fecha Nacimiento"
+              value={form.fecha_nacimiento}
+              onChange={(newValue) => {
+                changeDate(newValue);
+              }}
+            />
+          </FormControl>
+        </Box>
+
+        <Box display={"flex"} gap={2}>
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="Password"
+              value={form.password}
+              onChange={onChangeForm}
+              name="password"
+              type={show ? "text" : "password"}
+              InputProps={{
+                endAdornment: show ? (
+                  <VisibilityOff
+                    style={{ cursor: "pointer" }}
+                    onClick={handleShowPassword}
+                  />
+                ) : (
+                  <Visibility
+                    style={{ cursor: "pointer" }}
+                    onClick={handleShowPassword}
+                  />
+                ),
+              }}
+            />
+          </FormControl>
+
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="Cofirmar password"
+              value={form.password_confirmation}
+              onChange={onChangeForm}
+              name="password_confirmation"
+              type={show2 ? "text" : "password"}
+              InputProps={{
+                endAdornment: show2 ? (
+                  <VisibilityOff
+                    style={{ cursor: "pointer" }}
+                    onClick={handleShowPassword2}
+                  />
+                ) : (
+                  <Visibility
+                    style={{ cursor: "pointer" }}
+                    onClick={handleShowPassword2}
+                  />
+                ),
+              }}
+            />
+          </FormControl>
+        </Box>
+        <Box display={"flex"} gap={2}>
+          <FormControl sx={{ width: "50%" }}>
+            <TextField
+              label="Email"
+              value={form.email}
+              onChange={onChangeForm}
+              name="email"
+            />
+          </FormControl>
+
+          <FormControl sx={{ width: "50%" }}>
+            <InputLabel>Lenguaje</InputLabel>
+            <Select
+              value={form.lenguaje}
+              label="Lenguaje"
+              name="lenguaje"
+              onChange={onChangeSelect}
+            >
+              <MenuItem value={"es"}>Español</MenuItem>
+              <MenuItem value={"en"}>Ingles</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </Box>
 
-      <Box
-        sx={{
-          m: 2,
-          display: "flex",
-          flexDirection: "row",
-          gap: 15,
-        }}
-      >
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="Apellido Paterno"
-            value={form.apellido_paterno}
-            onChange={onChangeForm}
-            name="apellido_paterno"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="Apellido Materno"
-            value={form.apellido_materno}
-            onChange={onChangeForm}
-            name="apellido_materno"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
-      </Box>
-
-      <Box
-        sx={{
-          m: 2,
-          display: "flex",
-          flexDirection: "row",
-          gap: 15,
-        }}
-      >
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="UID"
-            value={form.uid}
-            onChange={onChangeForm}
-            name="uid"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
-        <FormControl>
-          <DatePicker
-            label="Fecha Nacimiento"
-            value={form.fecha_nacimiento}
-            onChange={(newValue) => {
-              changeDate(newValue);
-            }}
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
-      </Box>
-
-      <Box
-        sx={{
-          m: 2,
-          display: "flex",
-          flexDirection: "row",
-          gap: 15,
-        }}
-      >
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="Password"
-            value={form.password}
-            onChange={onChangeForm}
-            name="password"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
-
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="Cofirmar password"
-            value={form.password_confirmation}
-            onChange={onChangeForm}
-            name="password_confirmation"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
-      </Box>
-
-      <Box
-        sx={{
-          m: 2,
-          display: "flex",
-          flexDirection: "row",
-          gap: 15,
-        }}
-      >
-        <FormControl>
-          <TextField
-            id="demo-helper-text-misaligned-no-helper"
-            label="Email"
-            value={form.email}
-            onChange={onChangeForm}
-            name="email"
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          />
-        </FormControl>
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">Lenguaje</InputLabel>
-          <Select
-            value={form.lenguaje}
-            label="Lenguaje"
-            name="lenguaje"
-            onChange={onChangeSelect}
-            sx={{ width: { sx: 250, md: 250, lg: 450 } }}
-          >
-            <MenuItem value={"es"}>Español</MenuItem>
-            <MenuItem value={"en"}>Ingles</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      {errorPassword && (
+        <Typography sx={{ mt: 2, color: "red" }}>
+          Las contraseñas deben ser iguales
+        </Typography>
+      )}
 
       <ColorButton
         variant="contained"
-        sx={{ mt: 2, ml: 2 }}
-        onClick={handleAddUser}
+        sx={{ mt: 5 }}
+        onClick={() => {
+          handleAddUser();
+        }}
         disabled={error}
+        style={{ float: "right" }}
       >
-        Guardar
+        {result.isLoading ? "Cargando..." : "Guardar"}
       </ColorButton>
     </Box>
   );

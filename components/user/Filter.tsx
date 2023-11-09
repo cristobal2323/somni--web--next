@@ -27,7 +27,7 @@ export const FilterComponent: NextPage<Props> = ({
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <div className="flex">
+        <div className="flex" style={{ alignItems: "center" }}>
           <Typography
             color="primary.main"
             marginLeft={2}
@@ -41,13 +41,6 @@ export const FilterComponent: NextPage<Props> = ({
           >
             Listado de usuarios
           </Typography>
-        </div>
-        <Box display={"flex"} gap={10} alignItems={"center"}>
-          <NextLink href="/dashboard/users/add-user">
-            <Box>
-              <ColorButton>Agregar Usuario</ColorButton>
-            </Box>
-          </NextLink>
 
           <Box>
             <TextField
@@ -60,9 +53,17 @@ export const FilterComponent: NextPage<Props> = ({
               label="Buscar"
               sx={{
                 backgroundColor: "info.main",
+                ml: 2,
               }}
             />
           </Box>
+        </div>
+        <Box alignItems={"center"} marginRight={2}>
+          <NextLink href="/dashboard/users/add-user">
+            <Box>
+              <ColorButton>Agregar Usuario</ColorButton>
+            </Box>
+          </NextLink>
         </Box>
       </Box>
     </section>

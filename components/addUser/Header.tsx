@@ -25,7 +25,7 @@ export const Header = () => {
               display: { xs: "none", sm: "none", md: "none", lg: "block" },
             }}
           >
-            Crear Usuario
+            Crear Operario
           </Typography>
         </div>
       </Box>

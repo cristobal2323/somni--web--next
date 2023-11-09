@@ -35,6 +35,20 @@ type ParametersPostRoles = {
 
 type ParametersRoles = {};
 
+type ParametersAddOperario = {
+  username: string;
+  nombres: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+  uid: string;
+  fecha_nacimiento: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  lenguaje: string;
+  empresa_id: string;
+};
+
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: baseQuery,
@@ -73,6 +87,14 @@ export const usersApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
+    postAddOperario: builder.mutation<Data, ParametersAddOperario>({
+      query: (body) => ({
+        url: `users`,
+        body,
+        method: "POST",
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
@@ -82,4 +104,5 @@ export const {
   usePostAsignacionMutation,
   useGetRolesQuery,
   usePostRolesMutation,
+  usePostAddOperarioMutation,
 } = usersApi;
