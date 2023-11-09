@@ -149,7 +149,7 @@ async function deleteData(
     });
   } catch (error) {
     return res.status(400).json({
-      message: "Error al eliminar operador",
+      message: "Error al desactivar operador",
       data: null,
       state: "ERROR",
     });

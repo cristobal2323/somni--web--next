@@ -56,10 +56,10 @@ export const ModalDeleteComponent: NextPage<Props> = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Eliminar usuario</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Desactivar usuario</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          ¿Está seguro que desea eliminar el usuario?
+          ¿Está seguro que desea desactivar el usuario?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
