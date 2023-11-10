@@ -247,7 +247,8 @@ export const Menu = () => {
                       alignItems={"center"}
                       sx={
                         asPath === "/dashboard/users" ||
-                        asPath === "/dashboard/users/add-user"
+                        asPath === "/dashboard/users/add-user" ||
+                        asPath === "/dashboard/users/[id]"
                           ? ButtonMenuActive
                           : ButtonMenu
                       }

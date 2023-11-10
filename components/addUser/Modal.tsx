@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContentText,
-  Typography,
   DialogActions,
   Button,
 } from "@mui/material";
@@ -48,9 +47,9 @@ export const ModalComponent: NextPage<Props> = ({
         style={{ padding: "15px" }}
       >
         {result.data?.data.ejecucion.estado ? (
-          <Typography>Usuario Creado correctamente</Typography>
+          "Usuario creado correctamente"
         ) : (
-          <Typography>{message}</Typography>
+          <>{message}</>
         )}
       </DialogContentText>
       <DialogActions>

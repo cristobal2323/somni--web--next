@@ -24,7 +24,11 @@ import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import { Delete, Edit } from "@mui/icons-material";
 
 //Components
-import { ModalTurnoComponent, ModalRoleComponent, ModalDeleteComponent } from "./index";
+import {
+  ModalTurnoComponent,
+  ModalRoleComponent,
+  ModalDeleteComponent,
+} from "./index";
 import { LoaderComponent } from "../ui";
 
 //types
@@ -124,7 +128,6 @@ export const TableComponent: NextPage<Props> = ({
   // Delete
   const [openDelete, setOpenDelete] = useState<boolean>(false);
 
-
   let arr = data?.datos && data.ejecucion.estado ? [...data.datos] : [];
 
   arr = useMemo(() => {
@@ -167,11 +170,11 @@ export const TableComponent: NextPage<Props> = ({
 
   const handleCloseDelete = (): void => {
     setOpenDelete(false);
-  }
+  };
 
   const handleClickDeleteUser = (selectedUserId: number): void => {
-    setOpenDelete(true)
-    setUserId(selectedUserId)
+    setOpenDelete(true);
+    setUserId(selectedUserId);
   };
 
   return (
@@ -189,11 +192,10 @@ export const TableComponent: NextPage<Props> = ({
         roles={roles}
         userId={userId}
       />
-      <ModalDeleteComponent 
+      <ModalDeleteComponent
         handleCloseDelete={handleCloseDelete}
         openDelete={openDelete}
-        userId={userId}  
-    
+        userId={userId}
       />
       <TableContainer component={Paper}>
         {isFetching && <LoaderComponent borderRadius={1} />}
@@ -288,19 +290,19 @@ export const TableComponent: NextPage<Props> = ({
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Editar usuario">
-                    <IconButton size="small">
-                      <Link
-                        href="/dashboard/users/edit-user"
-                        sx={{
-                          "&:hover": {
-                            color: "secondary.light",
-                            cursor: "pointer",
-                          },
-                        }}
-                      >
+                    <Link
+                      href={`/dashboard/users/${row.user_id}`}
+                     
+                    >
+                      <IconButton size="small"  sx={{
+                        "&:hover": {
+                          color: "secondary.light",
+                          cursor: "pointer",
+                        },
+                      }}>
                         <Edit />
-                      </Link>
-                    </IconButton>
+                      </IconButton>
+                    </Link>
                   </Tooltip>
                   <Tooltip title="Borrar usuario">
                     <IconButton

@@ -1,8 +1,13 @@
 import React from "react";
 
 import { Box, Typography } from "@mui/material";
+import { NextPage } from "next";
 
-export const Header = () => {
+type Props = {
+  title: string;
+};
+
+export const Header: NextPage<Props> = ({title}) => {
   return (
     <section className="container">
       <Box
@@ -25,7 +30,7 @@ export const Header = () => {
               display: { xs: "none", sm: "none", md: "none", lg: "block" },
             }}
           >
-            Crear Operario
+            {title}
           </Typography>
         </div>
       </Box>
