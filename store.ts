@@ -8,6 +8,7 @@ import { loginApi } from "./services/login";
 import { reportePersonasApi } from "./services/reportePersonas";
 import { reporteDetalleApi } from "./services/reporteDetalle";
 import { usersApi } from "./services/users";
+import { userDataApi } from "./services/dataUser";
 
 //Slices
 import homeReducer from "./slices/homeSlice";
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   [reportePersonasApi.reducerPath]: reportePersonasApi.reducer,
   [reporteDetalleApi.reducerPath]: reporteDetalleApi.reducer,
   [usersApi.reducerPath]: usersApi.reducer,
+  [userDataApi.reducerPath]: userDataApi.reducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
@@ -30,7 +32,8 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
         homeApi.middleware,
         reportePersonasApi.middleware,
         reporteDetalleApi.middleware,
-        usersApi.middleware
+        usersApi.middleware,
+        userDataApi.middleware
       ),
     preloadedState,
   });

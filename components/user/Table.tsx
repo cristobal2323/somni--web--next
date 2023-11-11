@@ -16,7 +16,6 @@ import {
   Chip,
   Tooltip,
   IconButton,
-  Link,
 } from "@mui/material";
 
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
@@ -33,6 +32,7 @@ import { LoaderComponent } from "../ui";
 
 //types
 import { IUsers } from "../../interfaces";
+import Nextlink from "next/link";
 
 interface Props {
   data: IUsers;
@@ -290,19 +290,19 @@ export const TableComponent: NextPage<Props> = ({
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Editar usuario">
-                    <Link
-                      href={`/dashboard/users/${row.user_id}`}
-                     
-                    >
-                      <IconButton size="small"  sx={{
-                        "&:hover": {
-                          color: "secondary.light",
-                          cursor: "pointer",
-                        },
-                      }}>
+                    <Nextlink href={`/dashboard/users/${row.user_id}`}>
+                      <IconButton
+                        size="small"
+                        sx={{
+                          "&:hover": {
+                            color: "secondary.light",
+                            cursor: "pointer",
+                          },
+                        }}
+                      >
                         <Edit />
                       </IconButton>
-                    </Link>
+                    </Nextlink>
                   </Tooltip>
                   <Tooltip title="Borrar usuario">
                     <IconButton

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import dayjs, { Dayjs } from "dayjs";
-
-//Next
-import { NextPage } from "next";
+import { Dayjs } from "dayjs";
 
 //Package
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -55,11 +52,11 @@ export const FormComponent = () => {
 
   const [date, setDate] = useState<Dayjs | null>(null);
 
-  const [lenguaje, setLenguaje] = useState("");
+  const [lenguaje, setLenguaje] = useState<string>("");
 
   const [errorPassword, setErrorPassword] = useState<boolean>(false);
 
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const [show, setShow] = useState<boolean>(false);
   const [show2, setShow2] = useState<boolean>(false);
@@ -127,9 +124,9 @@ export const FormComponent = () => {
 
   useEffect(() => {
     if (password === password_confirmation) {
-      setErrorPassword(false)
+      setErrorPassword(false);
     } else {
-      setErrorPassword(true)
+      setErrorPassword(true);
     }
   }, [password, password_confirmation]);
 

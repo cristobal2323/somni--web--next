@@ -46,6 +46,7 @@ export const config = {
     "/dashboard/control",
     "/dashboard/details",
     "/dashboard/users",
+    "/dashboard/users/[id]",
     "/",
   ],
 };
