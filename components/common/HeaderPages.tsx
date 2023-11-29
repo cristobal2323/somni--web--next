@@ -7,7 +7,7 @@ type Props = {
   title: string;
 };
 
-export const Header: NextPage<Props> = ({title}) => {
+export const Header: NextPage<Props> = ({ title }) => {
   return (
     <section className="container">
       <Box

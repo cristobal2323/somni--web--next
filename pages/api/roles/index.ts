@@ -98,8 +98,6 @@ async function postData(req: NextApiRequest, res: NextApiResponse<DataPost>) {
     const status = response.status;
     const data = response.data;
 
-    console.log(data, status);
-
     if (status === 200) {
       if (data.ejecucion.estado) {
         const deleteFetch: any[] = [];
@@ -124,7 +122,7 @@ async function postData(req: NextApiRequest, res: NextApiResponse<DataPost>) {
         });
 
         const responseAllDelete = await Promise.all(deleteFetch);
-        console.log(responseAllDelete, deleteFetch.length);
+
         if (
           responseAllDelete[0]?.ejecucion?.estado ||
           deleteFetch.length === 0

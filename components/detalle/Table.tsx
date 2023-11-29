@@ -62,7 +62,12 @@ export const TableComponent: NextPage<Props> = ({ data, isFetching }) => {
       justifyContent={"center"}
       position={"relative"}
     >
-      <Box sx={{ marginTop: 3 }} marginX={2} display={"flex"} overflow={"auto"}>
+      <Box
+        sx={{ marginTop: 3, height: "calc(100vh - 150px)" }}
+        marginX={2}
+        display={"flex"}
+        overflow={"auto"}
+      >
         {isFetching && (
           <LoaderComponent alignItems="flex-start" borderRadius={5} />
         )}

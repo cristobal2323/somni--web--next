@@ -136,10 +136,10 @@ export const FormComponent = () => {
         <Box
           position={"relative"}
           sx={{
-            m: 2,
+            m: { sx: 0, sm: 2, md: 2, lg: 2 },
             p: 5,
             backgroundColor: "white",
-            height: "calc(100vh - 250px)",
+            height: { sx: "auto", sm: "auto", md: "auto", lg: "auto" },
           }}
         >
           <ModalComponent
@@ -154,8 +154,19 @@ export const FormComponent = () => {
           />
 
           <Box display={"flex"} gap={3} flexDirection={"column"} width={"100%"}>
-            <Box display={"flex"} gap={2}>
-              <FormControl sx={{ width: "50%" }}>
+            <Box
+              display={"flex"}
+              gap={2}
+              sx={{
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                  md: "row",
+                  lg: "row",
+                },
+              }}
+            >
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("username", {
                     required: "Este campo es requerido",
@@ -164,7 +175,7 @@ export const FormComponent = () => {
                   error={!!errors.username}
                 />
               </FormControl>
-              <FormControl sx={{ width: "50%" }}>
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("nombres", {
                     required: "Este campo es requerido",
@@ -175,8 +186,19 @@ export const FormComponent = () => {
               </FormControl>
             </Box>
 
-            <Box display={"flex"} gap={2}>
-              <FormControl sx={{ width: "50%" }}>
+            <Box
+              display={"flex"}
+              gap={2}
+              sx={{
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                  md: "row",
+                  lg: "row",
+                },
+              }}
+            >
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("apellido_paterno", {
                     required: "Este campo es requerido",
@@ -186,7 +208,7 @@ export const FormComponent = () => {
                 />
               </FormControl>
 
-              <FormControl sx={{ width: "50%" }}>
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("apellido_materno", {
                     required: "Este campo es requerido",
@@ -197,8 +219,19 @@ export const FormComponent = () => {
               </FormControl>
             </Box>
 
-            <Box display={"flex"} gap={2}>
-              <FormControl sx={{ width: "50%" }}>
+            <Box
+              display={"flex"}
+              gap={2}
+              sx={{
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                  md: "row",
+                  lg: "row",
+                },
+              }}
+            >
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("uid", {
                     required: "Este campo es requerido",
@@ -208,7 +241,7 @@ export const FormComponent = () => {
                 />
               </FormControl>
 
-              <FormControl sx={{ width: "50%" }}>
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <DatePicker
                   label="Fecha Nacimiento"
                   value={date}
@@ -228,8 +261,19 @@ export const FormComponent = () => {
               </FormControl>
             </Box>
 
-            <Box display={"flex"} gap={2}>
-              <FormControl sx={{ width: "50%" }}>
+            <Box
+              display={"flex"}
+              gap={2}
+              sx={{
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                  md: "row",
+                  lg: "row",
+                },
+              }}
+            >
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("password", {
                     required: "Este campo es requerido",
@@ -253,7 +297,7 @@ export const FormComponent = () => {
                 />
               </FormControl>
 
-              <FormControl sx={{ width: "50%" }}>
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("password_confirmation", {
                     required: "Este campo es requerido",
@@ -277,8 +321,19 @@ export const FormComponent = () => {
                 />
               </FormControl>
             </Box>
-            <Box display={"flex"} gap={2}>
-              <FormControl sx={{ width: "50%" }}>
+            <Box
+              display={"flex"}
+              gap={2}
+              sx={{
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                  md: "row",
+                  lg: "row",
+                },
+              }}
+            >
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <TextField
                   {...register("email", {
                     required: "Este campo es requerido",
@@ -289,7 +344,7 @@ export const FormComponent = () => {
                 />
               </FormControl>
 
-              <FormControl sx={{ width: "50%" }}>
+              <FormControl sx={{ width: { sx: "100%", sm: "50%" } }}>
                 <InputLabel error={!!errors.lenguaje}>Lenguaje</InputLabel>
                 <Select
                   {...register("lenguaje", {
@@ -306,25 +361,27 @@ export const FormComponent = () => {
                 </Select>
               </FormControl>
             </Box>
+
+            {errorPassword && (
+              <Typography sx={{ mt: 2, color: "red" }}>
+                Las contraseñas deben ser iguales
+              </Typography>
+            )}
+
+            <Box>
+              <ColorButton
+                type="submit"
+                variant="contained"
+                sx={{ mt: 5 }}
+                onClick={() => {
+                  handleSubmit(handleAddUser);
+                }}
+                style={{ float: "right" }}
+              >
+                {result.isLoading ? "Cargando..." : "Guardar"}
+              </ColorButton>
+            </Box>
           </Box>
-
-          {errorPassword && (
-            <Typography sx={{ mt: 2, color: "red" }}>
-              Las contraseñas deben ser iguales
-            </Typography>
-          )}
-
-          <ColorButton
-            type="submit"
-            variant="contained"
-            sx={{ mt: 5 }}
-            onClick={() => {
-              handleSubmit(handleAddUser);
-            }}
-            style={{ float: "right" }}
-          >
-            {result.isLoading ? "Cargando..." : "Guardar"}
-          </ColorButton>
         </Box>
       </form>
     </>

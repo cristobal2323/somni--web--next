@@ -9,3 +9,4 @@ export * from "./reporteDetalle";
 export * from "./users";
 export * from "./roles";
 export * from "./dataUser";
+export * from "./upload";
