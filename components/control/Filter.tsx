@@ -58,13 +58,12 @@ export const FilterComponent: NextPage<Props> = ({
               onChange={(newValue) => {
                 changeDate("start", newValue);
               }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  helperText={null}
-                  sx={{ backgroundColor: "info.main" }}
-                />
-              )}
+              slotProps={{
+                textField: {
+                  sx: { backgroundColor: "info.main" },
+                  helperText: null,
+                },
+              }}
             />
           </Box>
           <Box>
@@ -74,13 +73,12 @@ export const FilterComponent: NextPage<Props> = ({
               onChange={(newValue) => {
                 changeDate("end", newValue);
               }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  helperText={null}
-                  sx={{ backgroundColor: "info.main" }}
-                />
-              )}
+              slotProps={{
+                textField: {
+                  sx: { backgroundColor: "info.main" },
+                  helperText: null,
+                },
+              }}
             />
           </Box>
         </div>
