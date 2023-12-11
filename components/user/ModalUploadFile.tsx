@@ -55,7 +55,30 @@ export const ModalUploadFileComponent: NextPage<Props> = ({
           style={{ padding: "15px" }}
         >
           <Box margin={2}>
-            {result.isSuccess && "Se han cargado los usuarios correctamente"}
+            {result.isSuccess && result.data.data.ejecucion.estado ? (
+              "Se han cargado los usuarios correctamente"
+            ) : (
+              <div>
+                Ha ocurrido un error al cargar los usuarios. Errores
+                encontrados:
+                <ul>
+                  {result?.data?.data?.datos.resultado_validacion_filas.map(
+                    (fila: string, index: number) => (
+                      <li key={index}>
+                        {Object.entries(fila).map(([campo, valor]) =>
+                          typeof valor === "string" &&
+                          valor.startsWith("##ERRROR") ? (
+                            <div key={campo}>
+                              Fila {index + 1}, Campo {campo}: {valor}
+                            </div>
+                          ) : null
+                        )}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            )}
             {result.isError && "Ha ocurrido un error al cargar los usuarios"}
             {result.isLoading && <LoaderComponent borderRadius={1} />}
           </Box>

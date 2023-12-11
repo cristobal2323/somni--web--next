@@ -149,7 +149,7 @@ export const FilterComponent: NextPage<Props> = ({
         </div>
 
         <Box alignItems={"center"} marginRight={2} display={"flex"} gap={5}>
-          <ColorButton
+          {/* <ColorButton
             component="label"
             variant="contained"
             startIcon={<CloudUpload />}
@@ -162,7 +162,7 @@ export const FilterComponent: NextPage<Props> = ({
               onChange={handleUploadUsers}
               accept="text/csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             />
-          </ColorButton>
+          </ColorButton> */}
 
           <NextLink href="/dashboard/users/add-user">
             <Box>

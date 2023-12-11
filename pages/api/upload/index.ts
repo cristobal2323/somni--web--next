@@ -5,6 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { promises as fsPromises, createReadStream } from "fs";
 import FormData from "form-data";
+import { createHash } from "crypto";
 
 import { File, IncomingForm } from "formidable";
 
@@ -104,11 +105,15 @@ async function postData(req: NextApiRequest, res: NextApiResponse<Data>) {
       });
     }
 
+    const fileData = await fsPromises.readFile(body);
+    const md5Hash = calculateMD5(fileData);
+
     setTimeout(async function () {
       try {
         let formData = new FormData();
         formData.append("archivo_usuarios", createReadStream(body));
         formData.append("empresa_id", empresaIdValue);
+        formData.append("md5", md5Hash);
 
         console.log(`${process.env.API_BACK}valxlsusuarios.json`);
 
@@ -164,11 +169,11 @@ async function postData(req: NextApiRequest, res: NextApiResponse<Data>) {
           }
         }
 
-        return res.status(200).json({
-          message: "Datos ok",
-          state: "OK",
-          data,
-        });
+        // return res.status(200).json({
+        //   message: "Datos ok",
+        //   state: "OK",
+        //   data,
+        // });
       } catch (error) {
         console.error("Error al procesar la solicitud:", error);
         return res.status(500).json({
@@ -186,4 +191,10 @@ async function postData(req: NextApiRequest, res: NextApiResponse<Data>) {
       state: "ERROR",
     });
   }
+}
+
+function calculateMD5(data: Buffer): string {
+  const hash = createHash("md5");
+  hash.update(data);
+  return hash.digest("hex");
 }
